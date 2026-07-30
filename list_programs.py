@@ -1,241 +1,77 @@
-# lists = [10, 20, 30, 40]
-# length = len(lists)
-# print(length)
+"""Common list-operation examples.
 
-# lists = [10,20,30, 40]
-# length = len(lists)
-# print("lenght of list =", length)
+Small runnable demos of Python list operations including negative number
+filtering. All functions are pure and easy to unit test.
+"""
 
-# lists = [10, 20, 30 ,40]
-# lists .append (70)
-# print(lists)
+from __future__ import annotations
 
-# lists = [10, 20, 30, 40]
-# lists .insert(2, 30)
-# print(lists)
+from typing import List, Iterable
 
-# lists = [10, 20, 30,]
-# lists .remove(20)
-# print(lists)
 
+def filter_negative(numbers: Iterable[int]) -> List[int]:
+    """Return only the negative integers from ``numbers`` in original order."""
+    return [n for n in numbers if n < 0]
 
-# lists = [10, 20, 30, 40]
-# for i in lists:
-#     print(i)
 
+def filter_positive(numbers: Iterable[int]) -> List[int]:
+    """Return only the positive integers from ``numbers`` in original order."""
+    return [n for n in numbers if n > 0]
 
-# lists = [10, 20,30,40]
-# if 60 in lists:
-#     print("element found")
-# else:
-#     print("element not found")    
 
+def filter_even(numbers: Iterable[int]) -> List[int]:
+    """Return only the even integers from ``numbers``."""
+    return [n for n in numbers if n % 2 == 0]
 
-# lists = [50 ,20,30,40]
-# lists.sort()
-# print(lists)
 
+def filter_odd(numbers: Iterable[int]) -> List[int]:
+    """Return only the odd integers from ``numbers``."""
+    return [n for n in numbers if n % 2 == 1]
 
-# lists = [10, 30, 40, 50 ]
-# lists.sort(reverse=True)
-# print(lists)
 
+def squares(numbers: Iterable[int]) -> List[int]:
+    """Return the square of each number in order."""
+    return [n * n for n in numbers]
 
-# lists = [10, 30,40,]
-# lists.reverse()
-# print(lists)
 
-# lists = [10, 20, 30, 40, 70 ,20,]
-# maximum = max(lists)
-# print(maximum)
+def cubes(numbers: Iterable[int]) -> List[int]:
+    """Return the cube of each number in order."""
+    return [n ** 3 for n in numbers]
 
 
+def product(numbers: Iterable[int]) -> int:
+    """Return the product of all numbers (empty input yields 1)."""
+    result = 1
+    for n in numbers:
+        result *= n
+    return result
 
-# lists = [10, 20, 30, 40, 70 ,20,]
-# minium = min(lists)
-# print(minium)
 
+def remove_duplicates(numbers: Iterable[int]) -> List[int]:
+    """Return unique elements in first-occurrence order."""
+    seen = set()
+    out: List[int] = []
+    for n in numbers:
+        if n not in seen:
+            seen.add(n)
+            out.append(n)
+    return out
 
-# lists = [10, 20, 30,40,20,10,20,]
-# count =  lists.count(20)
-# print(count)
 
-# lists = [10, 20, 30 ,40,]
-# copy = lists.copy()
-# print(copy)
+def average(numbers: Iterable[int]) -> float:
+    """Arithmetic mean of ``numbers``. Raises on empty input."""
+    values = list(numbers)
+    if not values:
+        raise ValueError("Cannot compute average of empty sequence")
+    return sum(values) / len(values)
 
 
-# lists = [10, 20, 30 ,40,]
-# lists.clear()
-# print(lists)
+def run_demo() -> None:
+    """Print a quick demo of filter_negative."""
+    data = [10, -5, 20, -15, 30, -25]
+    print("Input     :", data)
+    print("Negatives :", filter_negative(data))
 
-# lists = [10, 20, 30, 40]
-# total = sum(lists)
-# print(total)
 
-# lists = [10, 20, 30, 40]
-# total = sum(lists)
-# length =len(lists)
-# average =total /length
-# print(average)
-
-# lists = [10, 20, 30, 40]
-# lists.sort()
-# print(lists)
-
-# lists = [10, 20, 30, 40]
-# smallest = lists[0]
-# for i in lists:
-#     if i < smallest:
-#         smallest = i
-        
-        
-        
-# print(smallest)
-
-
-
-# lists = [10, 20, 30, 40]
-# largest = lists[0]
-# for i in lists:
-#     if i > largest:
-#         largest = i
-        
-        
-        
-# print(largest)
-
-
-
-
-# lists = [10, 20, 30, 40]
-# new_lists = []
-# for i in lists:
-#     if i not in new_lists:
-        
-#   new_lists.append(i)        
-# print(new_lists)        
-
-
-# lists = [10, 20, 30, 40]
-# new_lists = []
-
-# for i in lists:
-#     if i not in new_lists:
-#         new_lists.append(i)
-
-# print(new_lists)
-        
-        
-        
-# list1 = [10, 20, 30, 40]  
-# list2 = [10, 20, 30,]  
-# new_list = list1 + list2
-# print(new_list)
-
-
-
-# lists = [2, 3, 4, 5]
-# result = 1
-# for i in lists:
-#     result = result * i
-# print(result)    
-
-# lists = [10, 15, 20, 30, 35]
-# for i in lists:
-#     if i % 2 == 0:
-# print(i)        
-
-# lists = [10, 15, 20, 30, 35]
-
-# for i in lists:
-#     if i % 2 == 0:
-#         print(i)
-
-
-
-# lists = [10, 15, 20, 30, 35]
-
-# for i in lists:
-#     if i % 2 == 1:
-#         print(i)
-        
-        
-# lists = [10, 15, 20, 30, 35]
-# count = 0
-
-# for i in lists:
-#     if i % 2 == 0:
-#         count = count + 1
-        
-#         print(count)        
-        
-        
-# lists = [10 , 20, 30, 40 ]
-
-# count = 0
-
-# for i in lists:
-#     if i % 2 == 0:
-#         count = count + 1
-
-# print(count)        
-        
-        
-     
-# lists = [10, 15, 20, 25, 30, 35 ]
-
-# count = 0
-
-# for i in lists:
-#     if i % 2 == 1:
-#         count = count + 1
-     
-# print(count)        
-
-
-
-    
-# lists = [10, 15, 20, 25, 30, 35 ]
-# for i in lists:
-   
-# print(i ** 2)          
-                
-                
-                
-#                 lists = [10, 15, 20, 25, 30, 35]
-
-# for i in lists:
-#     print(i ** 2)
-
-
-# lists = [10, 15, 20, 25, 30, 35]
-
-# for i in lists:
-#     print(i ** 2)
-
-
-
-# lists = [2, 3, 4, 5]
-
-# for i in lists:
-#     print( i ** 3 )
-
-
-
-# lists = [10, 15, 20, 25, 30, 35 ]
-# for i in lists:
-#    if i in 1 == 0:
-# print(i) 
-
-# lists = [10, -22, 33, 44 ]
-
-# for i in lists:
-#     if i > 0:
-#         print(i)
-
-lists = [10, -5, 20, -15, 30, -25]
-
-for i in lists:
-    if i < 0:
-        print(i)
+if __name__ == "__main__":
+    run_demo()

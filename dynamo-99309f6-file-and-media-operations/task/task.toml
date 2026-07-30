@@ -1,0 +1,32 @@
+artifacts = ["/app/output/text_files.tar.gz", "/app/output/image_files.tar.gz", "/app/output/data_files.tar.gz"]
+
+[task]
+name = "dynamo/file-archiver"
+description = "Extract zip archive and compress files into tar.gz based on extensions"
+
+[metadata]
+category = "File and Media Operations"
+subcategory = "Archiving and compression"
+model_tested = "Opus-4.8"
+agent_tested = "Terminus-2"
+task_objective = ["implement", "scripting"]
+artifact_type = ["archive_file"]
+expert_time_estimate_hours = 1
+difficulty_explanation = "Requires handling zip extraction, file pattern filtering, and tar.gz creation."
+solution_explanation = "Unzip input archive, filter files by extension, and use tarfile module to create tar.gz archives."
+verification_explanation = "Checks if output tar.gz files exist and contain expected extracted contents."
+
+[verifier]
+timeout_sec = 120.0
+
+[agent]
+timeout_sec = 120.0
+
+[environment]
+build_timeout_sec = 600.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 10240
+gpus = 0
+allow_internet = true
+mcp_servers = []
