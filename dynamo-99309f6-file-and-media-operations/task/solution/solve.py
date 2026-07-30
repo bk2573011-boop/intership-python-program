@@ -52,10 +52,23 @@ def process_archive(
 ) -> Dict[str, int]:
     """Extract the zip and build per-extension tar.gz files.
 
+    When ``extension_map`` is ``None``, the tarball paths are derived from
+    ``out_dir`` using the canonical mapping:
+        .txt -> <out_dir>/text_files.tar.gz
+        .jpg -> <out_dir>/image_files.tar.gz
+        .csv -> <out_dir>/data_files.tar.gz
+
     Returns:
         A mapping of extension -> number of files packed into the tarball.
     """
-    ext_map = extension_map if extension_map is not None else EXTENSION_MAP
+    if extension_map is None:
+        ext_map: Dict[str, str] = {
+            ".txt": os.path.join(out_dir, "text_files.tar.gz"),
+            ".jpg": os.path.join(out_dir, "image_files.tar.gz"),
+            ".csv": os.path.join(out_dir, "data_files.tar.gz"),
+        }
+    else:
+        ext_map = dict(extension_map)
     os.makedirs(out_dir, exist_ok=True)
 
     if os.path.exists(extract_dir):
