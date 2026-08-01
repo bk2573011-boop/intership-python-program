@@ -1,31 +1,36 @@
-artifacts = ["/app/output/text_files.tar.gz", "/app/output/image_files.tar.gz", "/app/output/data_files.tar.gz"]
+artifacts = [
+  "/app/output/repaired_archive.tar",
+  "/app/output/repaired_video.mp4",
+  "/app/output/validation_report.json",
+  "/app/output/extracted/",
+]
 
 [task]
-name = "dynamo/file-archiver"
-description = "Extract zip archive and compress files into tar.gz based on extensions"
+name = "dynamo/mp4-ustar-repair"
+description = "Repair multi-part gzip tar (ustar headers) + MP4 atom headers, validate with SHA-256 and ffprobe"
 
 [metadata]
 category = "File and Media Operations"
-subcategory = "Archiving and compression"
+subcategory = "Archive and container header repair"
 model_tested = "Opus-4.8"
 agent_tested = "Terminus-2"
-task_objective = ["implement", "scripting"]
-artifact_type = ["archive_file"]
-expert_time_estimate_hours = 1
-difficulty_explanation = "Requires handling zip extraction, file pattern filtering, and tar.gz creation."
-solution_explanation = "Unzip input archive, filter files by extension, and use tarfile module to create tar.gz archives."
-verification_explanation = "Checks if output tar.gz files exist and contain expected extracted contents."
+task_objective = ["implement", "scripting", "repair", "validate"]
+artifact_type = ["archive_file", "media_file", "report_file", "directory"]
+expert_time_estimate_hours = 2
+difficulty_explanation = "Requires binary format handling (ustar tar headers, MP4 boxes), checksum recalculation, corrupted 4CC/size inference, SHA-256 verification, and ffprobe validation."
+solution_explanation = "1) Concatenate multi-part .gz in alphabetical order. 2) Walk ustar tar headers: fix magic='ustar', version='00', recalculate header checksum. 3) Extract archive, locate MP4. 4) Repair MP4 top-level atoms: infer/replace corrupted size fields for moov/mdat, fix their 4CCs if adjacent to known atoms. 5) Compute SHA-256 of repaired MP4 and compare with /app/data/sha256_manifest.json. 6) Run ffprobe on repaired MP4 and confirm duration/size are positive. 7) Emit validation_report.json with outcomes."
+verification_explanation = "Checks that repaired_archive.tar exists and is a valid ustar tar, repaired_video.mp4 exists with valid moov+mdat, validation_report.json lists all repair stages as true, extracted/ contains expected files, and SHA-256 matches the manifest plus ffprobe succeeds."
 
 [verifier]
-timeout_sec = 120.0
+timeout_sec = 300.0
 
 [agent]
-timeout_sec = 120.0
+timeout_sec = 300.0
 
 [environment]
-build_timeout_sec = 600.0
-cpus = 1
-memory_mb = 2048
+build_timeout_sec = 900.0
+cpus = 2
+memory_mb = 4096
 storage_mb = 10240
 gpus = 0
 allow_internet = true
